@@ -16,7 +16,7 @@ function App() {
           <div className="mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-black/40 px-4 py-3 backdrop-blur">
             <a href="#" className="flex items-center gap-2 font-semibold">
               <span className="h-3 w-3 rounded-full bg-cyan-400"></span>
-              <span>NovaReach</span>
+              <span>ForeverMedia</span>
             </a>
             <div className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
               <a href="#features" className="hover:text-white">Features</a>
@@ -43,7 +43,7 @@ function App() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 bg-black/70 py-10 text-center text-sm text-white/60">
-        © {new Date().getFullYear()} NovaReach — Performance Creator Network
+        © {new Date().getFullYear()} ForeverMedia — Performance Creator Network
       </footer>
     </div>
   )
