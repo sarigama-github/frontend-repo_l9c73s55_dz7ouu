@@ -1,7 +1,7 @@
 import React from 'react'
 
-// Using Simple Icons CDN for crisp, monochrome SVG brand logos
-// You can swap or add more by changing the slug to any supported brand: https://simpleicons.org/
+// Using Simple Icons CDN with native brand colors
+// List of supported brands: https://simpleicons.org/
 const logos = [
   { name: 'Spotify', slug: 'spotify' },
   { name: 'Riot Games', slug: 'riotgames' },
@@ -20,13 +20,13 @@ export default function SocialProof() {
           <div className="text-2xl font-extrabold text-blue-300">Trusted by Top Brands</div>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 items-center gap-6 opacity-80 sm:grid-cols-3 md:grid-cols-5">
+        <div className="mt-10 grid grid-cols-2 items-center gap-6 sm:grid-cols-3 md:grid-cols-5">
           {logos.map((logo) => (
             <div key={logo.slug} className="flex items-center justify-center">
               <img
-                src={`https://cdn.simpleicons.org/${logo.slug}/FFFFFF`}
+                src={`https://cdn.simpleicons.org/${logo.slug}`}
                 alt={`${logo.name} logo`}
-                className="h-7 w-auto transition-opacity duration-300 hover:opacity-100 opacity-90"
+                className="h-7 w-auto opacity-95 transition-all duration-300 hover:opacity-100"
                 loading="lazy"
               />
             </div>
