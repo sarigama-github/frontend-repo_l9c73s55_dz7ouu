@@ -1,11 +1,13 @@
 import React from 'react'
 
+// Using Simple Icons CDN for crisp, monochrome SVG brand logos
+// You can swap or add more by changing the slug to any supported brand: https://simpleicons.org/
 const logos = [
-  { name: 'HyperX', src: 'https://dummyimage.com/120x40/ffffff/000000&text=HyperX' },
-  { name: 'Riot', src: 'https://dummyimage.com/100x40/ffffff/000000&text=Riot' },
-  { name: 'Sony', src: 'https://dummyimage.com/100x40/ffffff/000000&text=Sony' },
-  { name: 'EA', src: 'https://dummyimage.com/80x40/ffffff/000000&text=EA' },
-  { name: 'Spotify', src: 'https://dummyimage.com/120x40/ffffff/000000&text=Spotify' },
+  { name: 'Spotify', slug: 'spotify' },
+  { name: 'Riot Games', slug: 'riotgames' },
+  { name: 'Sony', slug: 'sony' },
+  { name: 'Electronic Arts', slug: 'ea' },
+  { name: 'HyperX', slug: 'hyperx' },
 ]
 
 export default function SocialProof() {
@@ -18,10 +20,15 @@ export default function SocialProof() {
           <div className="text-2xl font-extrabold text-blue-300">Trusted by Top Brands</div>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 items-center gap-6 opacity-70 sm:grid-cols-3 md:grid-cols-5">
+        <div className="mt-10 grid grid-cols-2 items-center gap-6 opacity-80 sm:grid-cols-3 md:grid-cols-5">
           {logos.map((logo) => (
-            <div key={logo.name} className="flex items-center justify-center">
-              <img src={logo.src} alt={logo.name} className="h-6 w-auto" />
+            <div key={logo.slug} className="flex items-center justify-center">
+              <img
+                src={`https://cdn.simpleicons.org/${logo.slug}/FFFFFF`}
+                alt={`${logo.name} logo`}
+                className="h-7 w-auto transition-opacity duration-300 hover:opacity-100 opacity-90"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
