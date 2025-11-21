@@ -39,6 +39,8 @@ export default function SocialProof() {
   const [hovered, setHovered] = useState(null)
   const [colorMode, setColorMode] = useState('native') // 'native' | 'mono'
   const [paused, setPaused] = useState(false)
+  // Per-item load state: 0 = normal, 1 = fallback mono, 2 = render text badge
+  const [fallbackStep, setFallbackStep] = useState({})
 
   const monoColor = '#6EE7F9' // neon cyan for monochrome mode glows
 
@@ -89,6 +91,11 @@ export default function SocialProof() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [paused])
 
+  function buildSrc(logo, useMono) {
+    // Step 0: native (if available), else mono white; Step 1: force white; Step 2: none
+    return `https://cdn.simpleicons.org/${logo.slug}/${useMono ? 'FFFFFF' : (logo.color ? logo.color : 'FFFFFF')}`
+  }
+
   return (
     <section className="relative w-full bg-black py-12 text-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -133,11 +140,11 @@ export default function SocialProof() {
             {list.map((logo, i) => {
               const isHovered = hovered === i
 
-              const src = `https://cdn.simpleicons.org/${logo.slug}${
-                colorMode === 'native' ? (logo.color ? `/${logo.color}` : '') : '/FFFFFF'
-              }`
+              const step = fallbackStep[i] || 0
+              const useMono = colorMode === 'mono' || step === 1
+              const src = buildSrc(logo, useMono)
 
-              const baseGlow = colorMode === 'native' ? logo.glow : monoColor
+              const baseGlow = colorMode === 'native' && step === 0 ? (logo.glow || monoColor) : monoColor
               const intensity = logo.intensity ?? 1
 
               const filter = isHovered
@@ -148,6 +155,13 @@ export default function SocialProof() {
                   ].join(' ')
                 : 'drop-shadow(0 0 0px transparent)'
 
+              const onError = () => {
+                setFallbackStep(prev => {
+                  const next = (prev[i] || 0) + 1
+                  return { ...prev, [i]: next }
+                })
+              }
+
               return (
                 <div
                   key={`${logo.slug}-${i}`}
@@ -155,13 +169,20 @@ export default function SocialProof() {
                   onMouseEnter={() => setHovered(i)}
                   onMouseLeave={() => setHovered(null)}
                 >
-                  <img
-                    src={src}
-                    alt={`${logo.name} logo`}
-                    className="h-8 w-auto opacity-95 transition-all duration-300 hover:opacity-100 md:h-9 lg:h-10"
-                    style={{ filter }}
-                    loading="lazy"
-                  />
+                  {step <= 1 ? (
+                    <img
+                      src={src}
+                      alt={`${logo.name} logo`}
+                      className="h-8 w-auto opacity-95 transition-all duration-300 hover:opacity-100 md:h-9 lg:h-10"
+                      style={{ filter }}
+                      loading="lazy"
+                      onError={onError}
+                    />
+                  ) : (
+                    <span className="rounded-md bg-white/5 px-3 py-1 text-sm text-white/70 ring-1 ring-white/10">
+                      {logo.name}
+                    </span>
+                  )}
                 </div>
               )
             })}
